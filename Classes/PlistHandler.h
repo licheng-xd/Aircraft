@@ -10,6 +10,8 @@
 #define __Aircraft__PlistHandler__
 
 #include <stdio.h>
+#include "SimpleAudioEngine.h"
+
 USING_NS_CC;
 using namespace std;
 

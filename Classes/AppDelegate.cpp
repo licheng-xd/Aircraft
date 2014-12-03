@@ -1,5 +1,5 @@
 #include "AppDelegate.h"
-#include "GameLayer.h"
+#include "WelcomScene.h"
 
 USING_NS_CC;
 
@@ -28,12 +28,12 @@ bool AppDelegate::applicationDidFinishLaunching() {
     auto glview = director->getOpenGLView();
     
     Size size = glview->getFrameSize();
-    glview->setDesignResolutionSize(480, 850,  ResolutionPolicy::NO_BORDER);
+    glview->setDesignResolutionSize(480, 850,  ResolutionPolicy::EXACT_FIT);
 
-    printf("------------------%f, %f\n", size.width, size.height);
+    //log("------------------%f, %f\n", size.width, size.height);
     
     if(!glview) {
-        glview = GLViewImpl::create("My Game");
+        glview = GLViewImpl::create("Aircraft");
         director->setOpenGLView(glview);
     }
 
@@ -45,7 +45,9 @@ bool AppDelegate::applicationDidFinishLaunching() {
     
     // create a scene. it's an autorelease object
     //auto scene = HelloWorld::createScene();
-    auto scene = GameLayer::createScene();
+    //auto scene = GameLayer::createScene();
+    auto scene = WelcomeScene::create();
+    
     // run
     director->runWithScene(scene);
 

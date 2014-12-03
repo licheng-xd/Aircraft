@@ -8,19 +8,18 @@
 
 #include "PlaneLayer.h"
 
-PlaneLayer* PlaneLayer::m_pInstance = NULL;
-PlaneLayer::Delete PlaneLayer::m_delete;
+PlaneLayer* PlaneLayer::_instance = nullptr;
 
-PlaneLayer::PlaneLayer() {
-    
-}
-
-PlaneLayer* PlaneLayer::getInstance() {
-    if (PlaneLayer::m_pInstance == NULL) {
-        PlaneLayer::m_pInstance = new PlaneLayer();
-        m_pInstance->init();
+PlaneLayer* PlaneLayer::create() {
+    PlaneLayer* p = new PlaneLayer();
+    if (p && p->init()) {
+        p->autorelease();
+        _instance = p;
+    } else {
+        delete p;
+        p = nullptr;
     }
-    return PlaneLayer::m_pInstance;
+    return p;
 }
 
 bool PlaneLayer::init() {
@@ -28,7 +27,7 @@ bool PlaneLayer::init() {
     if ( !Layer::init()) {
         return false;
     }
-    
+    isAlive = true;
     Size winSize = Director::getInstance()->getWinSize();
     
     Sprite* plane = Sprite::createWithSpriteFrame(PlistHandler::getInstance()->getFrameByName("hero1.png"));
@@ -46,26 +45,27 @@ bool PlaneLayer::init() {
     touchListener = EventListenerTouchOneByOne::create();
     touchListener->setSwallowTouches(true);
     
-    touchListener->onTouchBegan = [](Touch *touch, Event *event) {
+    touchListener->onTouchBegan = [=](Touch *touch, Event *event) {
+        if (!isAlive || Director::getInstance()->isPaused()) {
+            return false;
+        }
         //auto target = static_cast<Sprite*>(event->getCurrentTarget());
         Point locationInNode = touch->getLocationInView();
         locationInNode = Director::getInstance()->convertToGL(locationInNode);
         //log("sprite began... x = %f, y = %f", locationInNode.x, locationInNode.y);
         
-        Rect planeRect = PlaneLayer::getInstance()->planeSprite->getBoundingBox();
+        Rect planeRect = planeSprite->getBoundingBox();
         if (planeRect.containsPoint(locationInNode)) {
-            
             return true;
         } else {
             return false;
         }
     };
     
-    touchListener->onTouchMoved = [](Touch* touch, Event* event){
+    touchListener->onTouchMoved = [=](Touch* touch, Event* event){
         //auto target = static_cast<Sprite*>(event->getCurrentTarget());
         //Move the position of current button sprite
-        Sprite* plane = PlaneLayer::getInstance()->getPlaneSprite();
-        plane->setPosition(plane->getPosition() + touch->getDelta());
+        plane->setPosition(planeSprite->getPosition() + touch->getDelta());
     };
     
     _eventDispatcher->addEventListenerWithSceneGraphPriority(touchListener, this);
@@ -82,10 +82,12 @@ void PlaneLayer::blowup() {
     Animate* animate = Animate::create(animation);
     CallFuncN* remove = CallFuncN::create(CC_CALLBACK_0(PlaneLayer::removePlane, this));
     Sequence* sequence = Sequence::create(animate, remove, NULL);
+    planeSprite->stopAllActions();
     planeSprite->runAction(sequence);
 }
 
 void PlaneLayer::removePlane() {
     this->removeChild(planeSprite);
     _eventDispatcher->removeEventListener(touchListener);
+    isAlive = false;
 }

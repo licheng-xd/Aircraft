@@ -34,14 +34,25 @@ void PlistHandler::init() {
     frameCache->addSpriteFramesWithFile("shoot.plist");
     
     animationCache = AnimationCache::getInstance();
-    // plane
-    Animation* animationPlane=Animation::create();
+    
+    //game loading
+    Animation* animationLoading = Animation::create();
+    animationLoading->setDelayPerUnit(0.2f);
+    animationLoading->addSpriteFrame(frameCache->getSpriteFrameByName("game_loading1.png"));
+    animationLoading->addSpriteFrame(frameCache->getSpriteFrameByName("game_loading2.png"));
+    animationLoading->addSpriteFrame(frameCache->getSpriteFrameByName("game_loading3.png"));
+    animationLoading->addSpriteFrame(frameCache->getSpriteFrameByName("game_loading4.png"));
+    animationCache->addAnimation(animationLoading, "loading");
+    
+    // plane fly
+    Animation* animationPlane = Animation::create();
     animationPlane->setDelayPerUnit(0.1f);
     animationPlane->addSpriteFrame(frameCache->getSpriteFrameByName("hero1.png"));
     animationPlane->addSpriteFrame(frameCache->getSpriteFrameByName("hero2.png"));
     animationCache->addAnimation(animationPlane, "plane");
     
-    Animation* animationPlaneBlowup=Animation::create();
+    // plane blowup
+    Animation* animationPlaneBlowup = Animation::create();
     animationPlaneBlowup->setDelayPerUnit(0.1f);
     animationPlaneBlowup->addSpriteFrame(frameCache->getSpriteFrameByName("hero_blowup_n1.png"));
     animationPlaneBlowup->addSpriteFrame(frameCache->getSpriteFrameByName("hero_blowup_n2.png"));
@@ -49,13 +60,15 @@ void PlistHandler::init() {
     animationPlaneBlowup->addSpriteFrame(frameCache->getSpriteFrameByName("hero_blowup_n4.png"));
     animationCache->addAnimation(animationPlaneBlowup, "planeBlowup");
     
+    // enemy3 fly
     Animation* animationEnemy3 = Animation::create();
     animationEnemy3->setDelayPerUnit(0.2f);
     animationEnemy3->addSpriteFrame(frameCache->getSpriteFrameByName("enemy3_n1.png"));
     animationEnemy3->addSpriteFrame(frameCache->getSpriteFrameByName("enemy3_n2.png"));
     animationCache->addAnimation(animationEnemy3, "enemy3");
     
-    Animation* animationEnemy1Blowup=Animation::create();
+    // enemy1 down
+    Animation* animationEnemy1Blowup = Animation::create();
     animationEnemy1Blowup->setDelayPerUnit(0.1f);
     animationEnemy1Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy1_down1.png"));
     animationEnemy1Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy1_down2.png"));
@@ -63,7 +76,7 @@ void PlistHandler::init() {
     animationEnemy1Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy1_down4.png"));
     animationCache->addAnimation(animationEnemy1Blowup, "enemy1Blowup");
     
-    Animation* animationEnemy2Blowup=Animation::create();
+    Animation* animationEnemy2Blowup = Animation::create();
     animationEnemy2Blowup->setDelayPerUnit(0.1f);
     animationEnemy2Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy2_down1.png"));
     animationEnemy2Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy2_down2.png"));
@@ -71,7 +84,7 @@ void PlistHandler::init() {
     animationEnemy2Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy2_down4.png"));
     animationCache->addAnimation(animationEnemy2Blowup, "enemy2Blowup");
     
-    Animation* animationEnemy3Blowup=Animation::create();
+    Animation* animationEnemy3Blowup = Animation::create();
     animationEnemy3Blowup->setDelayPerUnit(0.1f);
     animationEnemy3Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy3_down1.png"));
     animationEnemy3Blowup->addSpriteFrame(frameCache->getSpriteFrameByName("enemy3_down2.png"));

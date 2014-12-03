@@ -16,14 +16,47 @@
 #include "PlistHandler.h"
 #include "EnemyLayer.h"
 #include "ControlLayer.h"
+#include "UFOLayer.h"
+#include "MutiBulletLayer.h"
+#include "GameOverScene.h"
 
 USING_NS_CC;
 
 class GameLayer : public Layer {
 private:
-    int score = 0;
+    int m_score = 0;
+    
+    void backgroundMove(float dt);
+    
+    virtual void update(float dt);
+    
+    void updateBullet();
+    
+    void updateMutiBulelt();
+    
+    bool updateEnemy();
+    
+    void updateUFO();
+    
+    void updateBombMenu(int count);
+    
+    void menuBombCallback(Ref* target);
+    
+    bool checkPlaneBox(Enemy* enemy);
+    
+    Sprite *bg1, *bg2;
+    
+    Menu* bombMenu;
+    
+    Label* bombCountLabel;
+    
+    int m_bombCount = 0;
     
 public:
+    GameLayer(void);
+    
+    ~GameLayer(void);
+    
     PlaneLayer* planeLayer;
     
     BulletLayer* bulletLayer;
@@ -32,21 +65,15 @@ public:
     
     ControlLayer* controlLayer;
     
-    Sprite *bg1, *bg2;
+    UFOLayer* ufoLayer;
+    
+    MutiBulletLayer* mutiBulletLayer;
     
     static Scene* createScene();
     
     virtual bool init();
     
     CREATE_FUNC(GameLayer);
-    
-    void backgroundMove(float dt);
-    
-    virtual void update(float dt);
-    
-    bool updatePlane();
-    
-    bool checkPlaneBox(Enemy* enemy);
 };
 
 #endif /* defined(__Aircraft__GameLayer__) */

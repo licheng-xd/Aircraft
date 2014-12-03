@@ -13,6 +13,8 @@
 #include "Enemy.h"
 #include "PlistHandler.h"
 #include "ControlLayer.h"
+#include <time.h>
+#include <stdlib.h>
 
 USING_NS_CC;
 
@@ -54,6 +56,10 @@ public:
     void removeEnemy3(Node* targe, void* data);
     
     void removeAllEnemy1();
+    
+    void removeAllEnemy2();
+    
+    void removeAllEnemy3();
     
     void removeAllEnemy();
 };

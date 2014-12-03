@@ -36,9 +36,9 @@ bool BulletLayer::init() {
     
     winSize = Director::getInstance()->getWinSize();
     
-    Texture2D *texture = TextureCache::getInstance()->getTextureForKey("shoot.png");
+    auto texture = Director::getInstance()->getTextureCache()->getTextureForKey("shoot.png");
     if (texture == NULL) {
-        printf("------------------texture is NULL");
+        log("------------------texture is NULL");
     }
     bulletBatchNode = SpriteBatchNode::createWithTexture(texture);
     this->addChild(bulletBatchNode);
@@ -47,9 +47,11 @@ bool BulletLayer::init() {
 }
 
 void BulletLayer::addBullet(float dt) {
+    
+    CocosDenshion::SimpleAudioEngine::getInstance()->playEffect("bullet.mp3");
     Sprite* bullet = Sprite::createWithSpriteFrameName("bullet1.png");
     //    PlaneLayer *planeLayer = (PlaneLayer*)this->getParent()->getChildByTag(TAG_AIRPLANE);
-    Sprite *planeSprite = PlaneLayer::getInstance()->getPlaneSprite();
+    Sprite *planeSprite = PlaneLayer::_instance->getPlaneSprite();
     Point planePos = planeSprite->getPosition();
     
     Point bulletPos = Point(planePos.x, planePos.y + planeSprite->getContentSize().height/2);
