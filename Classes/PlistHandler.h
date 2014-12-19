@@ -10,6 +10,9 @@
 #define __Aircraft__PlistHandler__
 
 #include <stdio.h>
+#include <cstdio>
+#include <iostream>
+#include "cocos2d.h"
 #include "SimpleAudioEngine.h"
 
 USING_NS_CC;
